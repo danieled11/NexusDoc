@@ -7,26 +7,25 @@
     <!-- Google Fonts & FontAwesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
         :root {
-            --bg-dark: #0A0F1D;
-            --primary: #0F172A;
-            --secondary: #1E293B;
-            --accent: #2563EB;
-            --accent-hover: #1D4ED8;
-            --accent-light: #EFF6FF;
+            --bg-dark: #050505;
+            --primary: #121212;
+            --secondary: #1E1E1E;
+            --accent: #DC2626; /* Vermelho forte principal */
+            --accent-hover: #B91C1C;
+            --accent-light: rgba(220, 38, 38, 0.1);
             --white: #FFFFFF;
-            --text-dark: #0F172A;
-            --text-muted: #64748B;
-            --text-light: #94A3B8;
-            --border: #E2E8F0;
-            --border-dark: #334155;
-            --card-bg: #FFFFFF;
+            --text-dark: #121212;
+            --text-muted: #A3A3A3;
+            --text-light: #D4D4D4;
+            --border: #2E2E2E;
+            --border-dark: #262626;
+            --card-bg: #171717;
             --success: #10B981;
             --radius-lg: 1rem;
             --radius-md: 0.5rem;
-            --shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.08);
+            --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -38,20 +37,20 @@
         }
 
         body {
-            background-color: #F8FAFC;
-            color: var(--text-dark);
+            background-color: #0c0c0c;
+            color: var(--white);
             line-height: 1.6;
             overflow-x: hidden;
         }
 
         /* --- Header & Navegação Responsiva --- */
         header {
-            background: rgba(15, 23, 42, 0.95);
+            background: rgba(10, 10, 10, 0.95);
             backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
             z-index: 1000;
-            border-bottom: 1px solid var(--border-dark);
+            border-bottom: 1px solid var(--border);
         }
 
         .nav-container {
@@ -74,17 +73,12 @@
             letter-spacing: -0.02em;
         }
 
-        .logo-icon {
-            width: 38px;
-            height: 38px;
-            background: linear-gradient(135deg, var(--accent) 0%, #1D4ED8 100%);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: 1.1rem;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        .logo-img {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
         }
 
         /* Nav links para desktop */
@@ -145,7 +139,7 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 4px 14px rgba(220, 38, 38, 0.4);
         }
 
         .btn:hover {
@@ -155,7 +149,7 @@
 
         .btn-outline {
             background: transparent;
-            border: 1px solid var(--border-dark);
+            border: 1px solid var(--border);
             color: var(--white);
             box-shadow: none;
         }
@@ -171,11 +165,9 @@
             display: none;
             animation: fadeIn 0.4s ease-out;
         }
-
         .page.active {
             display: block;
         }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
@@ -188,6 +180,7 @@
             padding: 4rem 1.5rem 3.5rem;
             position: relative;
             overflow: hidden;
+            border-bottom: 1px solid var(--border);
         }
 
         .hero-container {
@@ -208,7 +201,7 @@
         }
 
         .hero-text h1 span {
-            color: #60A5FA;
+            color: var(--accent);
         }
 
         .hero-text p {
@@ -224,12 +217,12 @@
         }
 
         .hero-card-preview {
-            background: rgba(30, 41, 59, 0.7);
-            border: 1px solid var(--border-dark);
+            background: rgba(23, 23, 23, 0.8);
+            border: 1px solid var(--border);
             border-radius: var(--radius-lg);
             padding: 1.75rem;
             backdrop-filter: blur(10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
         }
 
         .stat-badge {
@@ -238,7 +231,7 @@
             gap: 1rem;
             margin-bottom: 1.25rem;
             padding-bottom: 1.25rem;
-            border-bottom: 1px solid var(--border-dark);
+            border-bottom: 1px solid var(--border);
         }
 
         .stat-badge .num {
@@ -278,11 +271,12 @@
             letter-spacing: 0.05em;
             display: inline-block;
             margin-bottom: 0.75rem;
+            border: 1px solid rgba(220, 38, 38, 0.3);
         }
 
         .section-header h2 {
             font-size: 1.85rem;
-            color: var(--primary);
+            color: var(--white);
             font-weight: 800;
             letter-spacing: -0.02em;
             margin-bottom: 0.5rem;
@@ -309,6 +303,11 @@
             box-shadow: var(--shadow);
         }
 
+        .card:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+
         .card-icon {
             width: 48px;
             height: 48px;
@@ -320,11 +319,12 @@
             justify-content: center;
             font-size: 1.3rem;
             margin-bottom: 1.25rem;
+            border: 1px solid rgba(220, 38, 38, 0.2);
         }
 
         .card h3 {
             font-size: 1.15rem;
-            color: var(--primary);
+            color: var(--white);
             margin-bottom: 0.5rem;
             font-weight: 700;
         }
@@ -334,9 +334,17 @@
             font-size: 0.9rem;
         }
 
+        .card code {
+            background: #262626;
+            color: #EF4444;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
         /* --- Simulador App --- */
         .simulator-box {
-            background: var(--white);
+            background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow);
@@ -356,7 +364,7 @@
         .form-group label {
             display: block;
             font-weight: 600;
-            color: var(--primary);
+            color: var(--text-light);
             margin-bottom: 0.4rem;
             font-size: 0.85rem;
         }
@@ -368,7 +376,13 @@
             border-radius: var(--radius-md);
             font-size: 0.9rem;
             transition: var(--transition);
-            background: #F8FAFC;
+            background: #111111;
+            color: var(--white);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
         }
 
         .dropzone {
@@ -376,13 +390,17 @@
             padding: 1.75rem 1rem;
             text-align: center;
             border-radius: var(--radius-md);
-            background: #F8FAFC;
+            background: #111111;
             cursor: pointer;
             transition: var(--transition);
         }
 
+        .dropzone:hover {
+            border-color: var(--accent);
+        }
+
         .repo-container {
-            background: #F8FAFC;
+            background: #111111;
             border: 1px solid var(--border);
             border-radius: var(--radius-md);
             padding: 1.25rem;
@@ -392,7 +410,7 @@
         }
 
         .doc-card {
-            background: var(--white);
+            background: var(--card-bg);
             border: 1px solid var(--border);
             border-left: 4px solid var(--accent);
             padding: 0.85rem 1rem;
@@ -407,7 +425,7 @@
         .doc-title {
             font-weight: 700;
             font-size: 0.88rem;
-            color: var(--primary);
+            color: var(--white);
             word-break: break-word;
         }
 
@@ -417,8 +435,9 @@
         }
 
         .badge-lgpd {
-            background: #D1FAE5;
-            color: #065F46;
+            background: rgba(16, 185, 129, 0.15);
+            color: #34D399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
             padding: 0.25rem 0.5rem;
             border-radius: 2rem;
             font-size: 0.7rem;
@@ -431,7 +450,7 @@
             background: var(--bg-dark);
             color: var(--white);
             padding: 3rem 1.5rem 1.5rem;
-            border-top: 1px solid var(--border-dark);
+            border-top: 1px solid var(--border);
         }
 
         .footer-container {
@@ -441,11 +460,11 @@
             grid-template-columns: 2fr 1fr 1fr;
             gap: 2rem;
             padding-bottom: 2rem;
-            border-bottom: 1px solid var(--border-dark);
+            border-bottom: 1px solid var(--border);
         }
 
         .footer-brand p {
-            color: var(--text-light);
+            color: var(--text-muted);
             margin-top: 0.75rem;
             font-size: 0.9rem;
         }
@@ -465,17 +484,22 @@
         }
 
         .footer-links a {
-            color: var(--text-light);
+            color: var(--text-muted);
             text-decoration: none;
             font-size: 0.85rem;
             cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
         }
 
         .footer-bottom {
             max-width: 1280px;
             margin: 1.5rem auto 0;
             text-align: center;
-            color: var(--text-light);
+            color: var(--text-muted);
             font-size: 0.8rem;
         }
 
@@ -486,7 +510,6 @@
             .mobile-menu-btn {
                 display: block;
             }
-
             /* Menu suspenso para telemóveis */
             nav ul {
                 display: none;
@@ -497,33 +520,27 @@
                 background: var(--primary);
                 flex-direction: column;
                 padding: 1.5rem;
-                border-bottom: 1px solid var(--border-dark);
-                box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+                border-bottom: 1px solid var(--border);
+                box-shadow: 0 10px 20px rgba(0,0,0,0.5);
             }
-
             nav ul.mobile-active {
                 display: flex;
             }
-
             .hero-container {
                 grid-template-columns: 1fr;
                 gap: 2rem;
             }
-
             .hero-text h1 {
                 font-size: 2rem;
             }
-
             .simulator-grid {
                 grid-template-columns: 1fr;
             }
-
             .footer-container {
                 grid-template-columns: 1fr;
             }
-
             .header-cta-btn {
-                display: none; /* Oculta o botão da navbar no ecrã muito pequeno para poupar espaço */
+                display: none;
             }
         }
     </style>
@@ -534,15 +551,13 @@
     <header>
         <div class="nav-container">
             <a href="#" class="logo" onclick="switchPage('home')">
-                <div class="logo-icon"><i class="fa-solid fa-folder-shield"></i></div>
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=100&auto=format&fit=crop" alt="Nexus Doc Logo" class="logo-img" onerror="this.src='https://placehold.co/42x42/DC2626/FFFFFF?text=ND'">
                 Nexus Doc
             </a>
-
             <!-- Botão Hambúrguer para Celular -->
             <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
                 <i class="fa-solid fa-bars" id="menu-icon"></i>
             </button>
-
             <nav>
                 <ul id="nav-list">
                     <li><a id="nav-home" class="active" onclick="switchPage('home')">Início</a></li>
@@ -551,7 +566,6 @@
                     <li><a id="nav-project" onclick="switchPage('project')">Projeto Integrador</a></li>
                 </ul>
             </nav>
-
             <button class="btn header-cta-btn" onclick="switchPage('simulator')">
                 <i class="fa-solid fa-rocket"></i> Testar App
             </button>
@@ -622,7 +636,7 @@
             <div class="simulator-box">
                 <div class="simulator-grid">
                     <div>
-                        <h3 style="margin-bottom: 1.25rem; color: var(--primary); font-size: 1.1rem;">
+                        <h3 style="margin-bottom: 1.25rem; color: var(--white); font-size: 1.1rem;">
                             <i class="fa-solid fa-file-arrow-up" style="color: var(--accent);"></i> Enviar Documento
                         </h3>
                         <form id="docForm" onsubmit="processDocument(event)">
@@ -630,18 +644,16 @@
                                 <label for="clientName">Nome do Cliente / Titular</label>
                                 <input type="text" id="clientName" class="form-control" placeholder="Ex: Carlos Eduardo Silva" required>
                             </div>
-
                             <div class="form-group">
                                 <label for="docHashtag">Hashtag de Categorização (IA)</label>
                                 <select id="docHashtag" class="form-control" required>
-                                    <option value="" disabled selected>Selecione uma hashtag...</option>
-                                    <option value="#RG">#RG - Identidade Civil</option>
-                                    <option value="#CPF">#CPF - Registro Fiscal</option>
-                                    <option value="#Contrato">#Contrato - Termo de Serviço</option>
-                                    <option value="#Comprovante">#Comprovante - Residência</option>
+                                    <option value="" disabled selected style="background: #111;">Selecione uma hashtag...</option>
+                                    <option value="#RG" style="background: #111;">#RG - Identidade Civil</option>
+                                    <option value="#CPF" style="background: #111;">#CPF - Registro Fiscal</option>
+                                    <option value="#Contrato" style="background: #111;">#Contrato - Termo de Serviço</option>
+                                    <option value="#Comprovante" style="background: #111;">#Comprovante - Residência</option>
                                 </select>
                             </div>
-
                             <div class="form-group">
                                 <label>Upload de Arquivo</label>
                                 <div class="dropzone" onclick="document.getElementById('fileInput').click()">
@@ -650,7 +662,6 @@
                                     <input type="file" id="fileInput" style="display: none;" onchange="updateFileName(this)">
                                 </div>
                             </div>
-
                             <button type="submit" class="btn" style="width: 100%; justify-content: center;">
                                 <i class="fa-solid fa-gear"></i> Indexar e Organizar
                             </button>
@@ -658,7 +669,7 @@
                     </div>
 
                     <div>
-                        <h3 style="margin-bottom: 1.25rem; color: var(--primary); font-size: 1.1rem;">
+                        <h3 style="margin-bottom: 1.25rem; color: var(--white); font-size: 1.1rem;">
                             <i class="fa-solid fa-folder-tree" style="color: var(--accent);"></i> Repositório Digital
                         </h3>
                         <div class="repo-container" id="repoList">
@@ -714,19 +725,19 @@
                 <p>Desenvolvido no âmbito do SENAC para resolver problemas reais de mercado.</p>
             </div>
 
-            <div style="background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow);">
-                <h3 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.3rem;">Resumo Executivo</h3>
+            <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow);">
+                <h3 style="color: var(--white); margin-bottom: 1rem; font-size: 1.3rem;">Resumo Executivo</h3>
                 <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
                     O projeto integrador aborda a vulnerabilidade de pequenas e médias empresas diante do recebimento desordenado de arquivos digitais.
                 </p>
-                
+
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; border-top: 1px solid var(--border); padding-top: 1.5rem;">
                     <div>
-                        <h4 style="color: var(--primary); font-size: 0.95rem; margin-bottom: 0.3rem;"><i class="fa-solid fa-graduation-cap" style="color: var(--accent);"></i> Instituição</h4>
+                        <h4 style="color: var(--white); font-size: 0.95rem; margin-bottom: 0.3rem;"><i class="fa-solid fa-graduation-cap" style="color: var(--accent);"></i> Instituição</h4>
                         <p style="color: var(--text-muted); font-size: 0.9rem;">SENAC - Serviço Nacional de Aprendizagem Comercial</p>
                     </div>
                     <div>
-                        <h4 style="color: var(--primary); font-size: 0.95rem; margin-bottom: 0.3rem;"><i class="fa-solid fa-users" style="color: var(--accent);"></i> Equipa</h4>
+                        <h4 style="color: var(--white); font-size: 0.95rem; margin-bottom: 0.3rem;"><i class="fa-solid fa-users" style="color: var(--accent);"></i> Equipa</h4>
                         <p style="color: var(--text-muted); font-size: 0.9rem;">Equipe Sala Azul - Projeto Integrador</p>
                     </div>
                 </div>
@@ -739,7 +750,7 @@
         <div class="footer-container">
             <div class="footer-brand">
                 <a href="#" class="logo">
-                    <div class="logo-icon"><i class="fa-solid fa-folder-shield"></i></div>
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=100&auto=format&fit=crop" alt="Nexus Doc Logo" class="logo-img" onerror="this.src='https://placehold.co/42x42/DC2626/FFFFFF?text=ND'">
                     Nexus Doc
                 </a>
                 <p>Plataforma de gestão documental inteligente para PMEs com automação por IA.</p>
@@ -772,7 +783,6 @@
             const navList = document.getElementById('nav-list');
             const icon = document.getElementById('menu-icon');
             navList.classList.toggle('mobile-active');
-
             if (navList.classList.contains('mobile-active')) {
                 icon.className = 'fa-solid fa-xmark';
             } else {
@@ -782,21 +792,17 @@
 
         // Troca de páginas sem recarregar o navegador
         function switchPage(pageId) {
-            // Ocultar menu do telemóvel se estiver aberto
             document.getElementById('nav-list').classList.remove('mobile-active');
             document.getElementById('menu-icon').className = 'fa-solid fa-bars';
 
-            // Ocultar páginas e remover estado ativo dos links
             document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
 
-            // Mostrar página pretendida
             const targetPage = document.getElementById('page-' + pageId);
             if (targetPage) {
                 targetPage.classList.add('active');
             }
 
-            // Ativar link na navegação
             const targetNav = document.getElementById('nav-' + pageId);
             if (targetNav) {
                 targetNav.classList.add('active');
@@ -816,14 +822,11 @@
 
         function processDocument(event) {
             event.preventDefault();
-
             const name = document.getElementById('clientName').value;
             const tag = document.getElementById('docHashtag').value;
             const fileInput = document.getElementById('fileInput');
-
             const fileName = fileInput.files[0] ? fileInput.files[0].name : "Documento_Anexo.pdf";
             const dateStr = new Date().toLocaleDateString('pt-BR');
-
             const repoList = document.getElementById('repoList');
 
             const newCard = document.createElement('div');
@@ -837,13 +840,26 @@
             `;
 
             repoList.prepend(newCard);
-
             document.getElementById('docForm').reset();
             document.getElementById('fileNameDisplay').textContent = "Clique para selecionar";
             document.getElementById('fileNameDisplay').style.color = "var(--text-muted)";
             document.getElementById('fileNameDisplay').style.fontWeight = "normal";
-
-            alert('Documento recebido, rotulado com ' + tag + ' e arquivado com segurança!');
+            
+            // Custom message box feedback instead of alert
+            const msgBox = document.createElement('div');
+            msgBox.style.position = 'fixed';
+            msgBox.style.bottom = '20px';
+            msgBox.style.right = '20px';
+            msgBox.style.background = '#DC2626';
+            msgBox.style.color = '#FFF';
+            msgBox.style.padding = '12px 20px';
+            msgBox.style.borderRadius = '8px';
+            msgBox.style.zIndex = '9999';
+            msgBox.style.boxShadow = '0 10px 25px rgba(0,0,0,0.5)';
+            msgBox.style.fontWeight = '600';
+            msgBox.innerHTML = `<i class="fa-solid fa-circle-check"></i> Documento rotulado com ${tag} e arquivado com segurança!`;
+            document.body.appendChild(msgBox);
+            setTimeout(() => msgBox.remove(), 4000);
         }
     </script>
 </body>
