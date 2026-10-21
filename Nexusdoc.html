@@ -1,854 +1,1037 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nexus Doc - Gestão Inteligente de Documentos & LGPD</title>
-<!-- Google Fonts & FontAwesome Icons -->
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<style>
-:root {
---bg-dark: #0A0F1D;
---primary: #0F172A;
---secondary: #1E293B;
---accent: #2563EB;
---accent-hover: #1D4ED8;
---accent-light: #EFF6FF;
---white: #FFFFFF;
---text-dark: #0F172A;
---text-muted: #64748B;
---text-light: #94A3B8;
---border: #E2E8F0;
---border-dark: #334155;
---card-bg: #FFFFFF;
---success: #10B981;
---radius-lg: 1rem;
---radius-md: 0.5rem;
---shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.08);
---transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-* {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-font-family: 'Plus Jakarta Sans', sans-serif;
-}
-
-body {
-background-color: #F8FAFC;
-color: var(--text-dark);
-line-height: 1.6;
-overflow-x: hidden;
-}
-
-/* --- Header & Navegação Responsiva --- */
-header {
-background: rgba(15, 23, 42, 0.95);
-backdrop-filter: blur(12px);
-position: sticky;
-top: 0;
-z-index: 1000;
-border-bottom: 1px solid var(--border-dark);
-}
-
-.nav-container {
-max-width: 1280px;
-margin: 0 auto;
-padding: 1rem 1.5rem;
-display: flex;
-justify-content: space-between;
-align-items: center;
-}
-
-.logo {
-display: flex;
-align-items: center;
-gap: 0.75rem;
-font-size: 1.25rem;
-font-weight: 800;
-color: var(--white);
-text-decoration: none;
-letter-spacing: -0.02em;
-}
-
-.logo-icon {
-width: 38px;
-height: 38px;
-background: linear-gradient(135deg, var(--accent) 0%, #1D4ED8 100%);
-border-radius: 10px;
-display: flex;
-align-items: center;
-justify-content: center;
-color: var(--white);
-font-size: 1.1rem;
-box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-}
-
-/* Nav links para desktop */
-nav ul {
-display: flex;
-gap: 1.5rem;
-list-style: none;
-}
-
-nav a {
-text-decoration: none;
-color: var(--text-light);
-font-weight: 600;
-font-size: 0.9rem;
-transition: var(--transition);
-cursor: pointer;
-padding: 0.5rem 0;
-position: relative;
-}
-
-nav a:hover, nav a.active {
-color: var(--white);
-}
-
-nav a.active::after {
-content: '';
-position: absolute;
-bottom: 0;
-left: 0;
-width: 100%;
-height: 2px;
-background: var(--accent);
-border-radius: 2px;
-}
-
-/* Botão do Menu Hambúrguer para Celular */
-.mobile-menu-btn {
-display: none;
-background: transparent;
-border: none;
-color: var(--white);
-font-size: 1.5rem;
-cursor: pointer;
-}
-
-.btn {
-background: var(--accent);
-color: var(--white);
-padding: 0.65rem 1.25rem;
-border-radius: var(--radius-md);
-text-decoration: none;
-font-weight: 600;
-font-size: 0.9rem;
-transition: var(--transition);
-border: none;
-cursor: pointer;
-display: inline-flex;
-align-items: center;
-justify-content: center;
-gap: 0.5rem;
-box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
-}
-
-.btn:hover {
-background: var(--accent-hover);
-transform: translateY(-2px);
-}
-
-.btn-outline {
-background: transparent;
-border: 1px solid var(--border-dark);
-color: var(--white);
-box-shadow: none;
-}
-
-.btn-outline:hover {
-background: rgba(255, 255, 255, 0.05);
-border-color: var(--accent);
-color: var(--white);
-}
-
-/* --- Estrutura de Páginas --- */
-.page {
-display: none;
-animation: fadeIn 0.4s ease-out;
-}
-
-.page.active {
-display: block;
-}
-
-@keyframes fadeIn {
-from { opacity: 0; transform: translateY(8px); }
-to { opacity: 1; transform: translateY(0); }
-}
-
-/* --- Hero Section --- */
-.hero {
-background: linear-gradient(180deg, var(--bg-dark) 0%, var(--primary) 100%);
-color: var(--white);
-padding: 4rem 1.5rem 3.5rem;
-position: relative;
-overflow: hidden;
-}
-
-.hero-container {
-max-width: 1280px;
-margin: 0 auto;
-display: grid;
-grid-template-columns: 1.2fr 0.8fr;
-gap: 2.5rem;
-align-items: center;
-}
-
-.hero-text h1 {
-font-size: 2.5rem;
-font-weight: 800;
-line-height: 1.2;
-letter-spacing: -0.03em;
-margin-bottom: 1.25rem;
-}
-
-.hero-text h1 span {
-color: #60A5FA;
-}
-
-.hero-text p {
-font-size: 1.05rem;
-color: var(--text-light);
-margin-bottom: 2rem;
-}
-
-.hero-actions {
-display: flex;
-gap: 1rem;
-flex-wrap: wrap;
-}
-
-.hero-card-preview {
-background: rgba(30, 41, 59, 0.7);
-border: 1px solid var(--border-dark);
-border-radius: var(--radius-lg);
-padding: 1.75rem;
-backdrop-filter: blur(10px);
-box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-}
-
-.stat-badge {
-display: flex;
-align-items: center;
-gap: 1rem;
-margin-bottom: 1.25rem;
-padding-bottom: 1.25rem;
-border-bottom: 1px solid var(--border-dark);
-}
-
-.stat-badge .num {
-font-size: 2rem;
-font-weight: 800;
-color: var(--accent);
-}
-
-.stat-badge .label {
-font-size: 0.8rem;
-color: var(--text-light);
-text-transform: uppercase;
-letter-spacing: 0.05em;
-}
-
-/* --- Layout de Content --- */
-.container {
-max-width: 1280px;
-margin: 0 auto;
-padding: 3.5rem 1.5rem;
-}
-
-.section-header {
-text-align: center;
-max-width: 700px;
-margin: 0 auto 3rem;
-}
-
-.section-header .tag {
-background: var(--accent-light);
-color: var(--accent);
-font-weight: 700;
-font-size: 0.75rem;
-padding: 0.35rem 0.85rem;
-border-radius: 2rem;
-text-transform: uppercase;
-letter-spacing: 0.05em;
-display: inline-block;
-margin-bottom: 0.75rem;
-}
-
-.section-header h2 {
-font-size: 1.85rem;
-color: var(--primary);
-font-weight: 800;
-letter-spacing: -0.02em;
-margin-bottom: 0.5rem;
-}
-
-.section-header p {
-color: var(--text-muted);
-font-size: 0.95rem;
-}
-
-/* Grid Flexível */
-.grid-3 {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-gap: 1.5rem;
-}
-
-.card {
-background: var(--card-bg);
-border: 1px solid var(--border);
-border-radius: var(--radius-lg);
-padding: 1.75rem;
-transition: var(--transition);
-box-shadow: var(--shadow);
-}
-
-.card-icon {
-width: 48px;
-height: 48px;
-background: var(--accent-light);
-color: var(--accent);
-border-radius: 12px;
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: 1.3rem;
-margin-bottom: 1.25rem;
-}
-
-.card h3 {
-font-size: 1.15rem;
-color: var(--primary);
-margin-bottom: 0.5rem;
-font-weight: 700;
-}
-
-.card p {
-color: var(--text-muted);
-font-size: 0.9rem;
-}
-
-/* --- Simulador App --- */
-.simulator-box {
-background: var(--white);
-border: 1px solid var(--border);
-border-radius: var(--radius-lg);
-box-shadow: var(--shadow);
-padding: 2rem;
-}
-
-.simulator-grid {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 2rem;
-}
-
-.form-group {
-margin-bottom: 1.25rem;
-}
-
-.form-group label {
-display: block;
-font-weight: 600;
-color: var(--primary);
-margin-bottom: 0.4rem;
-font-size: 0.85rem;
-}
-
-.form-control {
-width: 100%;
-padding: 0.75rem 0.9rem;
-border: 1px solid var(--border);
-border-radius: var(--radius-md);
-font-size: 0.9rem;
-transition: var(--transition);
-background: #F8FAFC;
-}
-
-.dropzone {
-border: 2px dashed var(--border);
-padding: 1.75rem 1rem;
-text-align: center;
-border-radius: var(--radius-md);
-background: #F8FAFC;
-cursor: pointer;
-transition: var(--transition);
-}
-
-.repo-container {
-background: #F8FAFC;
-border: 1px solid var(--border);
-border-radius: var(--radius-md);
-padding: 1.25rem;
-min-height: 300px;
-max-height: 400px;
-overflow-y: auto;
-}
-
-.doc-card {
-background: var(--white);
-border: 1px solid var(--border);
-border-left: 4px solid var(--accent);
-padding: 0.85rem 1rem;
-border-radius: var(--radius-md);
-margin-bottom: 0.75rem;
-display: flex;
-justify-content: space-between;
-align-items: center;
-gap: 0.5rem;
-}
-
-.doc-title {
-font-weight: 700;
-font-size: 0.88rem;
-color: var(--primary);
-word-break: break-word;
-}
-
-.doc-meta {
-font-size: 0.75rem;
-color: var(--text-muted);
-}
-
-.badge-lgpd {
-background: #D1FAE5;
-color: #065F46;
-padding: 0.25rem 0.5rem;
-border-radius: 2rem;
-font-size: 0.7rem;
-font-weight: 700;
-white-space: nowrap;
-}
-
-/* --- Footer --- */
-footer {
-background: var(--bg-dark);
-color: var(--white);
-padding: 3rem 1.5rem 1.5rem;
-border-top: 1px solid var(--border-dark);
-}
-
-.footer-container {
-max-width: 1280px;
-margin: 0 auto;
-display: grid;
-grid-template-columns: 2fr 1fr 1fr;
-gap: 2rem;
-padding-bottom: 2rem;
-border-bottom: 1px solid var(--border-dark);
-}
-
-.footer-brand p {
-color: var(--text-light);
-margin-top: 0.75rem;
-font-size: 0.9rem;
-}
-
-.footer-links h4 {
-font-size: 0.95rem;
-margin-bottom: 1rem;
-color: var(--white);
-}
-
-.footer-links ul {
-list-style: none;
-}
-
-.footer-links li {
-margin-bottom: 0.5rem;
-}
-
-.footer-links a {
-color: var(--text-light);
-text-decoration: none;
-font-size: 0.85rem;
-cursor: pointer;
-}
-
-.footer-bottom {
-max-width: 1280px;
-margin: 1.5rem auto 0;
-text-align: center;
-color: var(--text-light);
-font-size: 0.8rem;
-}
-
-/* ================================================================= */
-/* MEDIA QUERIES (REGRAS PARA TELEMÓVEIS E TABLETS) */
-/* ================================================================= */
-@media (max-width: 850px) {
-.mobile-menu-btn {
-display: block;
-}
-
-/* Menu suspenso para telemóveis */
-nav ul {
-display: none;
-position: absolute;
-top: 100%;
-left: 0;
-width: 100%;
-background: var(--primary);
-flex-direction: column;
-padding: 1.5rem;
-border-bottom: 1px solid var(--border-dark);
-box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-}
-
-nav ul.mobile-active {
-display: flex;
-}
-
-.hero-container {
-grid-template-columns: 1fr;
-gap: 2rem;
-}
-
-.hero-text h1 {
-font-size: 2rem;
-}
-
-.simulator-grid {
-grid-template-columns: 1fr;
-}
-
-.footer-container {
-grid-template-columns: 1fr;
-}
-
-.header-cta-btn {
-display: none; /* Oculta o botão da navbar no ecrã muito pequeno para poupar espaço */
-}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Doc - Gestão Inteligente de Documentos & LGPD</title>
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #0A0F1D;
+            --primary: #0F172A;
+            --secondary: #1E293B;
+            --accent: #2563EB;
+            --accent-hover: #1D4ED8;
+            --accent-light: #EFF6FF;
+            --white: #FFFFFF;
+            --text-dark: #0F172A;
+            --text-muted: #64748B;
+            --text-light: #94A3B8;
+            --border: #E2E8F0;
+            --border-dark: #334155;
+            --card-bg: #FFFFFF;
+            --success: #10B981;
+            --danger: #EF4444;
+            --radius-lg: 1rem;
+            --radius-md: 0.5rem;
+            --shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.08);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: #F8FAFC;
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- Tela de Login --- */
+        .login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--primary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 1.5rem;
+        }
+
+        .login-card {
+            background: rgba(30, 41, 59, 0.85);
+            border: 1px solid var(--border-dark);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 420px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            color: var(--white);
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-header .logo-icon {
+            margin: 0 auto 1rem;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+        }
+
+        .login-header h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.3rem;
+        }
+
+        .login-header p {
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        .login-form .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .login-form label {
+            display: block;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+        }
+
+        .login-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .login-input-wrapper i {
+            position: absolute;
+            left: 1rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .login-form .form-control {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-dark);
+            color: var(--white);
+            padding-left: 2.75rem;
+        }
+
+        .login-form .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        .login-error {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--danger);
+            color: #FCA5A5;
+            padding: 0.65rem;
+            border-radius: var(--radius-md);
+            font-size: 0.825rem;
+            margin-bottom: 1rem;
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* --- Esconder Conteúdo Principal Antes do Login --- */
+        .app-content {
+            display: none;
+        }
+
+        /* --- Header & Navegação Responsiva --- */
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--accent) 0%, #1D4ED8 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Nav links para desktop */
+        nav ul {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            cursor: pointer;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--white);
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        /* Botão do Menu Hambúrguer para Celular */
+        .mobile-menu-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .btn {
+            background: var(--accent);
+            color: var(--white);
+            padding: 0.65rem 1.25rem;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-dark);
+            color: var(--white);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent);
+            color: var(--white);
+        }
+
+        .btn-logout {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #FCA5A5;
+            box-shadow: none;
+        }
+
+        .btn-logout:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--white);
+        }
+
+        /* --- Estrutura de Páginas --- */
+        .page {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            background: linear-gradient(180deg, var(--bg-dark) 0%, var(--primary) 100%);
+            color: var(--white);
+            padding: 4rem 1.5rem 3.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero-text h1 span {
+            color: #60A5FA;
+        }
+
+        .hero-text p {
+            font-size: 1.05rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-card-preview {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid var(--border-dark);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .stat-badge {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .stat-badge .num {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .stat-badge .label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* --- Layout de Content --- */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 3.5rem 1.5rem;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+        }
+
+        .section-header .tag {
+            background: var(--accent-light);
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 0.35rem 0.85rem;
+            border-radius: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-block;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.85rem;
+            color: var(--primary);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Grid Flexível */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-light);
+            color: var(--accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .card h3 {
+            font-size: 1.15rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- Simulador App --- */
+        .simulator-box {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+        }
+
+        .simulator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.4rem;
+            font-size: 0.85rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 0.9rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            transition: var(--transition);
+            background: #F8FAFC;
+        }
+
+        .dropzone {
+            border: 2px dashed var(--border);
+            padding: 1.75rem 1rem;
+            text-align: center;
+            border-radius: var(--radius-md);
+            background: #F8FAFC;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .repo-container {
+            background: #F8FAFC;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            min-height: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .doc-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent);
+            padding: 0.85rem 1rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .doc-title {
+            font-weight: 700;
+            font-size: 0.88rem;
+            color: var(--primary);
+            word-break: break-word;
+        }
+
+        .doc-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .badge-lgpd {
+            background: #D1FAE5;
+            color: #065F46;
+            padding: 0.25rem 0.5rem;
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: var(--bg-dark);
+            color: var(--white);
+            padding: 3rem 1.5rem 1.5rem;
+            border-top: 1px solid var(--border-dark);
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .footer-brand p {
+            color: var(--text-light);
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .footer-links h4 {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .footer-bottom {
+            max-width: 1280px;
+            margin: 1.5rem auto 0;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+
+        /* MEDIA QUERIES */
+        @media (max-width: 850px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--primary);
+                flex-direction: column;
+                padding: 1.5rem;
+                border-bottom: 1px solid var(--border-dark);
+                box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            }
+
+            nav ul.mobile-active {
+                display: flex;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+
+            .simulator-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+
+            .header-cta-btn {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<!-- Header Navigation -->
-<header>
-<div class="nav-container">
-<a href="#" class="logo" onclick="switchPage('home')">
-<div class="logo-icon"><i class="fa-solid fa-folder-shield"></i></div>
-Nexus Doc
-</a>
+    <!-- TELA DE LOGIN -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="logo-icon"><i class="fa-solid fa-folder-shield"></i></div>
+                <h2>Nexus Doc</h2>
+                <p>Acesso Restrito ao Sistema</p>
+            </div>
 
-<!-- Botão Hambúrguer para Celular -->
-<button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-<i class="fa-solid fa-bars" id="menu-icon"></i>
-</button>
+            <div id="login-error" class="login-error">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span id="login-error-msg">Usuário ou senha incorretos.</span>
+            </div>
 
-<nav>
-<ul id="nav-list">
-<li><a id="nav-home" class="active" onclick="switchPage('home')">Início</a></li>
-<li><a id="nav-simulator" onclick="switchPage('simulator')">Simulador IA</a></li>
-<li><a id="nav-lgpd" onclick="switchPage('lgpd')">Soluções & LGPD</a></li>
-<li><a id="nav-project" onclick="switchPage('project')">Projeto Integrador</a></li>
-</ul>
-</nav>
+            <form class="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="username">Usuário</label>
+                    <div class="login-input-wrapper">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="username" class="form-control" placeholder="Digite seu usuário" required>
+                    </div>
+                </div>
 
-<button class="btn header-cta-btn" onclick="switchPage('simulator')">
-                <i class="fa-solid fa-rocket"></i> Testar App
-                <i class="fa-solid fa-rocket"></i> Testar Simulador
-</button>
-</div>
-</header>
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <div class="login-input-wrapper">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="password" class="form-control" placeholder="Digite sua senha" required>
+                    </div>
+                </div>
 
-<!-- PÁGINA 1: INÍCIO (HOME) -->
-<div id="page-home" class="page active">
-<section class="hero">
-<div class="hero-container">
-<div class="hero-text">
-<h1>Gestão Inteligente de Documentos para PMEs com <span>IA & LGPD</span></h1>
-<p>Substitua o caos do envio de documentos por WhatsApp e e-mails por uma triagem automatizada via hashtags, com arquivamento seguro e total conformidade com a legislação.</p>
-<div class="hero-actions">
-<button class="btn" onclick="switchPage('simulator')">Abrir Simulador IA</button>
-<button class="btn btn-outline" onclick="switchPage('lgpd')">Ver LGPD</button>
-</div>
-</div>
-<div class="hero-card-preview">
-<div class="stat-badge">
-<span class="num">85%</span>
-<span class="label">Redução no tempo de busca</span>
-</div>
-<div class="stat-badge" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
-<span class="num">100%</span>
-<span class="label">Adequação à Lei nº 8.159/91</span>
-</div>
-</div>
-</div>
-</section>
+                <button type="submit" class="btn" style="width: 100%; margin-top: 0.5rem;">
+                    <i class="fa-solid fa-right-to-bracket"></i> Entrar no Sistema
+                </button>
+            </form>
+        </div>
+    </div>
 
-<section class="container">
-<div class="section-header">
-<span class="tag">Por que o Nexus Doc?</span>
-<h2>Transforme a gestão documental da sua empresa</h2>
-<p>Criado para PMEs que necessitam de organização rápida e segurança jurídica sem complicação.</p>
-</div>
+    <!-- CONTEÚDO DA APLICAÇÃO (EXIBIDO APÓS AUTENTICAÇÃO) -->
+    <div id="app-content" class="app-content">
 
-<div class="grid-3">
-<div class="card">
-<div class="card-icon"><i class="fa-solid fa-hashtag"></i></div>
-<h3>Triagem por Hashtags</h3>
-<p>Anexe tags simples como <code>#RG</code> ou <code>#Contrato</code> e o robô lê, data, vincula ao cliente e categoriza automaticamente.</p>
-</div>
-<div class="card">
-<div class="card-icon"><i class="fa-solid fa-user-shield"></i></div>
-<h3>Blindagem Legal (LGPD)</h3>
-<p>Armazenamento com controle rigoroso de acessos e protocolos de sigilo para evitar vazamentos e multas.</p>
-</div>
-<div class="card">
-<div class="card-icon"><i class="fa-solid fa-box-archive"></i></div>
-<h3>Política de Temporalidade</h3>
-<p>Gestão baseada na Lei nº 8.159/91, controlando todo o ciclo de vida dos arquivos digitais.</p>
-</div>
-</div>
-</section>
-</div>
+        <!-- Header Navigation -->
+        <header>
+            <div class="nav-container">
+                <a href="#" class="logo" onclick="switchPage('home')">
+                    <div class="logo-icon"><i class="fa-solid fa-folder-shield"></i></div>
+                    Nexus Doc
+                </a>
 
-<!-- PÁGINA 2: SIMULADOR IA -->
-<div id="page-simulator" class="page">
-<section class="container">
-<div class="section-header">
-<span class="tag">Protótipo Interativo</span>
-<h2>Assistente Virtual Nexus Doc</h2>
-<p>Simule a triagem automática de documentos pelo telemóvel ou computador.</p>
-</div>
+                <!-- Botão Hambúrguer para Celular -->
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fa-solid fa-bars" id="menu-icon"></i>
+                </button>
 
-<div class="simulator-box">
-<div class="simulator-grid">
-<div>
-<h3 style="margin-bottom: 1.25rem; color: var(--primary); font-size: 1.1rem;">
-<i class="fa-solid fa-file-arrow-up" style="color: var(--accent);"></i> Enviar Documento
-</h3>
-<form id="docForm" onsubmit="processDocument(event)">
-<div class="form-group">
-<label for="clientName">Nome do Cliente / Titular</label>
-<input type="text" id="clientName" class="form-control" placeholder="Ex: Carlos Eduardo Lopes" required>
-</div>
+                <nav>
+                    <ul id="nav-list">
+                        <li><a id="nav-home" class="active" onclick="switchPage('home')">Início</a></li>
+                        <li><a id="nav-simulator" onclick="switchPage('simulator')">Simulador IA</a></li>
+                        <li><a id="nav-lgpd" onclick="switchPage('lgpd')">Soluções & LGPD</a></li>
+                        <li><a id="nav-project" onclick="switchPage('project')">Projeto Integrador</a></li>
+                    </ul>
+                </nav>
 
-<div class="form-group">
-<label for="docHashtag">Hashtag de Categorização (IA)</label>
-<select id="docHashtag" class="form-control" required>
-<option value="" disabled selected>Selecione uma hashtag...</option>
-<option value="#RG">#RG - Identidade Civil</option>
-<option value="#CPF">#CPF - Registro Fiscal</option>
-<option value="#Contrato">#Contrato - Termo de Serviço</option>
-<option value="#Comprovante">#Comprovante - Residência</option>
-</select>
-</div>
+                <div style="display: flex; gap: 0.75rem; align-items: center;">
+                    <button class="btn header-cta-btn" onclick="switchPage('simulator')">
+                        <i class="fa-solid fa-rocket"></i> Testar Simulador
+                    </button>
+                    <button class="btn btn-logout" onclick="handleLogout()" title="Sair da conta">
+                        <i class="fa-solid fa-right-from-bracket"></i> Sair
+                    </button>
+                </div>
+            </div>
+        </header>
 
-<div class="form-group">
-<label>Upload de Arquivo</label>
-<div class="dropzone" onclick="document.getElementById('fileInput').click()">
-<i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.8rem; color: var(--accent); margin-bottom: 0.3rem;"></i>
-<p id="fileNameDisplay" style="font-size: 0.85rem; color: var(--text-muted);">Clique para selecionar</p>
-<input type="file" id="fileInput" style="display: none;" onchange="updateFileName(this)">
-</div>
-</div>
+        <!-- PÁGINA 1: INÍCIO (HOME) -->
+        <div id="page-home" class="page active">
+            <section class="hero">
+                <div class="hero-container">
+                    <div class="hero-text">
+                        <h1>Gestão Inteligente de Documentos para PMEs com <span>IA & LGPD</span></h1>
+                        <p>Substitua o caos do envio de documentos por WhatsApp e e-mails por uma triagem automatizada via hashtags, com arquivamento seguro e total conformidade com a legislação.</p>
+                        <div class="hero-actions">
+                            <button class="btn" onclick="switchPage('simulator')">Abrir Simulador IA</button>
+                            <button class="btn btn-outline" onclick="switchPage('lgpd')">Ver LGPD</button>
+                        </div>
+                    </div>
+                    <div class="hero-card-preview">
+                        <div class="stat-badge">
+                            <span class="num">85%</span>
+                            <span class="label">Redução no tempo de busca</span>
+                        </div>
+                        <div class="stat-badge" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+                            <span class="num">100%</span>
+                            <span class="label">Adequação à Lei nº 8.159/91</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-<button type="submit" class="btn" style="width: 100%; justify-content: center;">
-<i class="fa-solid fa-gear"></i> Indexar e Organizar
-</button>
-</form>
-</div>
+            <section class="container">
+                <div class="section-header">
+                    <span class="tag">Por que o Nexus Doc?</span>
+                    <h2>Transforme a gestão documental da sua empresa</h2>
+                    <p>Criado para PMEs que necessitam de organização rápida e segurança jurídica sem complicação.</p>
+                </div>
 
-<div>
-<h3 style="margin-bottom: 1.25rem; color: var(--primary); font-size: 1.1rem;">
-<i class="fa-solid fa-folder-tree" style="color: var(--accent);"></i> Repositório Digital
-</h3>
-<div class="repo-container" id="repoList">
-<div class="doc-card">
-<div>
-<div class="doc-title">Ana Maria Souza - #Contrato.pdf</div>
-<div class="doc-meta">Data: 10/10/2026 • Pasta: /Contratos</div>
-</div>
-<span class="badge-lgpd"><i class="fa-solid fa-check"></i> LGPD Ok</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-</div>
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="card-icon"><i class="fa-solid fa-hashtag"></i></div>
+                        <h3>Triagem por Hashtags</h3>
+                        <p>Anexe tags simples como <code>#RG</code> ou <code>#Contrato</code> e o robô lê, data, vincula ao cliente e categoriza automaticamente.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fa-solid fa-user-shield"></i></div>
+                        <h3>Blindagem Legal (LGPD)</h3>
+                        <p>Armazenamento com controle rigoroso de acessos e protocolos de sigilo para evitar vazamentos e multas.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fa-solid fa-box-archive"></i></div>
+                        <h3>Política de Temporalidade</h3>
+                        <p>Gestão baseada na Lei nº 8.159/91, controlando todo o ciclo de vida dos arquivos digitais.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
 
-<!-- PÁGINA 3: SOLUÇÕES & LGPD -->
-<div id="page-lgpd" class="page">
-<section class="container">
-<div class="section-header">
-<span class="tag">Segurança & Legalidade</span>
-<h2>Conformidade Regulatória para PMEs</h2>
-<p>Entenda os pilares legais do Nexus Doc e como protegem a sua empresa.</p>
-</div>
+        <!-- PÁGINA 2: SIMULADOR IA -->
+        <div id="page-simulator" class="page">
+            <section class="container">
+                <div class="section-header">
+                    <span class="tag">Protótipo Interativo</span>
+                    <h2>Assistente Virtual Nexus Doc</h2>
+                    <p>Simule a triagem automática de documentos pelo telemóvel ou computador.</p>
+                </div>
 
-<div class="grid-3">
-<div class="card">
-<div class="card-icon"><i class="fa-solid fa-scale-balanced"></i></div>
-<h3>Lei Geral de Proteção de Dados</h3>
-<p>Garantia dos direitos dos titulares com controle de consentimento e descarte seguro de arquivos sensíveis.</p>
-</div>
-<div class="card">
-<div class="card-icon"><i class="fa-solid fa-landmark"></i></div>
-<h3>Lei nº 8.159/91</h3>
-<p>Aplicação da Política Nacional de Arquivos para gerenciar todo o ciclo documental.</p>
-</div>
-<div class="card">
-<div class="card-icon"><i class="fa-solid fa-lock"></i></div>
-<h3>Acesso Restrito</h3>
-<p>Níveis de permissão para garantir que apenas pessoal autorizado aceda aos ficheiros.</p>
-</div>
-</div>
-</section>
-</div>
+                <div class="simulator-box">
+                    <div class="simulator-grid">
+                        <div>
+                            <h3 style="margin-bottom: 1.25rem; color: var(--primary); font-size: 1.1rem;">
+                                <i class="fa-solid fa-file-arrow-up" style="color: var(--accent);"></i> Enviar Documento
+                            </h3>
+                            <form id="docForm" onsubmit="processDocument(event)">
+                                <div class="form-group">
+                                    <label for="clientName">Nome do Cliente / Titular</label>
+                                    <input type="text" id="clientName" class="form-control" placeholder="Ex: Carlos Eduardo Lopes" required>
+                                </div>
 
-<!-- PÁGINA 4: SOBRE O PROJETO -->
-<div id="page-project" class="page">
-<section class="container">
-<div class="section-header">
-<span class="tag">Académico</span>
-<h2>Projeto Integrador - Laboratório da Juventude</h2>
-<p>Desenvolvido no âmbito do SENAC para resolver problemas reais de mercado.</p>
-</div>
+                                <div class="form-group">
+                                    <label for="docHashtag">Hashtag de Categorização (IA)</label>
+                                    <select id="docHashtag" class="form-control" required>
+                                        <option value="" disabled selected>Selecione uma hashtag...</option>
+                                        <option value="#RG">#RG - Identidade Civil</option>
+                                        <option value="#CPF">#CPF - Registro Fiscal</option>
+                                        <option value="#Contrato">#Contrato - Termo de Serviço</option>
+                                        <option value="#Comprovante">#Comprovante - Residência</option>
+                                    </select>
+                                </div>
 
-<div style="background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow);">
-<h3 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.3rem;">Resumo Executivo</h3>
-<p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
-O projeto integrador aborda a vulnerabilidade de pequenas e médias empresas diante do recebimento desordenado de arquivos digitais.
-</p>
+                                <div class="form-group">
+                                    <label>Upload de Arquivo</label>
+                                    <div class="dropzone" onclick="document.getElementById('fileInput').click()">
+                                        <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.8rem; color: var(--accent); margin-bottom: 0.3rem;"></i>
+                                        <p id="fileNameDisplay" style="font-size: 0.85rem; color: var(--text-muted);">Clique para selecionar</p>
+                                        <input type="file" id="fileInput" style="display: none;" onchange="updateFileName(this)">
+                                    </div>
+                                </div>
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; border-top: 1px solid var(--border); padding-top: 1.5rem;">
-<div>
-<h4 style="color: var(--primary); font-size: 0.95rem; margin-bottom: 0.3rem;"><i class="fa-solid fa-graduation-cap" style="color: var(--accent);"></i> Instituição</h4>
-<p style="color: var(--text-muted); font-size: 0.9rem;">SENAC - Serviço Nacional de Aprendizagem Comercial</p>
-</div>
-<div>
-<h4 style="color: var(--primary); font-size: 0.95rem; margin-bottom: 0.3rem;"><i class="fa-solid fa-users" style="color: var(--accent);"></i> Equipa</h4>
-<p style="color: var(--text-muted); font-size: 0.9rem;">Equipe Turma Azul - Projeto Integrador</p>
-</div>
-</div>
-</div>
-</section>
-</div>
+                                <button type="submit" class="btn" style="width: 100%; justify-content: center;">
+                                    <i class="fa-solid fa-gear"></i> Indexar e Organizar
+                                </button>
+                            </form>
+                        </div>
 
-<!-- Footer -->
-<footer>
-<div class="footer-container">
-<div class="footer-brand">
-<a href="#" class="logo">
-<div class="logo-icon"><i class="fa-solid fa-folder-shield"></i></div>
-Nexus Doc
-</a>
-<p>Plataforma de gestão documental inteligente para PMEs com automação por IA.</p>
-</div>
-<div class="footer-links">
-<h4>Navegação</h4>
-<ul>
-<li><a onclick="switchPage('home')">Início</a></li>
-<li><a onclick="switchPage('simulator')">Simulador IA</a></li>
-<li><a onclick="switchPage('lgpd')">LGPD</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Projeto</h4>
-<ul>
-<li><a onclick="switchPage('project')">Sobre o Projeto</a></li>
-<li><a>SENAC - Laboratório da Juventude</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<p>&copy; 2026 Nexus Doc - SENAC. Todos os direitos reservados.</p>
-</div>
-</footer>
+                        <div>
+                            <h3 style="margin-bottom: 1.25rem; color: var(--primary); font-size: 1.1rem;">
+                                <i class="fa-solid fa-folder-tree" style="color: var(--accent);"></i> Repositório Digital
+                            </h3>
+                            <div class="repo-container" id="repoList">
+                                <div class="doc-card">
+                                    <div>
+                                        <div class="doc-title">Ana Maria Souza - #Contrato.pdf</div>
+                                        <div class="doc-meta">Data: 10/10/2026 • Pasta: /Contratos</div>
+                                    </div>
+                                    <span class="badge-lgpd"><i class="fa-solid fa-check"></i> LGPD Ok</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
 
-<!-- JavaScript para Responsividade e Interatividade -->
-<script>
-// Abrir/Fechar Menu no Telemóvel
-function toggleMobileMenu() {
-const navList = document.getElementById('nav-list');
-const icon = document.getElementById('menu-icon');
-navList.classList.toggle('mobile-active');
+        <!-- PÁGINA 3: SOLUÇÕES & LGPD -->
+        <div id="page-lgpd" class="page">
+            <section class="container">
+                <div class="section-header">
+                    <span class="tag">Segurança & Legalidade</span>
+                    <h2>Conformidade Regulatória para PMEs</h2>
+                    <p>Entenda os pilares legais do Nexus Doc e como protegem a sua empresa.</p>
+                </div>
 
-if (navList.classList.contains('mobile-active')) {
-icon.className = 'fa-solid fa-xmark';
-} else {
-icon.className = 'fa-solid fa-bars';
-}
-}
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="card-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                        <h3>Lei Geral de Proteção de Dados</h3>
+                        <p>Garantia dos direitos dos titulares com controle de consentimento e descarte seguro de arquivos sensíveis.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fa-solid fa-landmark"></i></div>
+                        <h3>Lei nº 8.159/91</h3>
+                        <p>Aplicação da Política Nacional de Arquivos para gerenciar todo o ciclo documental.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fa-solid fa-lock"></i></div>
+                        <h3>Acesso Restrito</h3>
+                        <p>Níveis de permissão para garantir que apenas pessoal autorizado aceda aos ficheiros.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
 
-// Troca de páginas sem recarregar o navegador
-function switchPage(pageId) {
-// Ocultar menu do telemóvel se estiver aberto
-document.getElementById('nav-list').classList.remove('mobile-active');
-document.getElementById('menu-icon').className = 'fa-solid fa-bars';
+        <!-- PÁGINA 4: SOBRE O PROJETO -->
+        <div id="page-project" class="page">
+            <section class="container">
+                <div class="section-header">
+                    <span class="tag">Académico</span>
+                    <h2>Projeto Integrador - Laboratório da Juventude</h2>
+                    <p>Desenvolvido no âmbito do SENAC para resolver problemas reais de mercado.</p>
+                </div>
 
-// Ocultar páginas e remover estado ativo dos links
-document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
+                <div style="background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow);">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.3rem;">Resumo Executivo</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
+                        O projeto integrador aborda a vulnerabilidade de pequenas e médias empresas diante do recebimento desordenado de arquivos digitais.
+                    </p>
 
-// Mostrar página pretendida
-const targetPage = document.getElementById('page-' + pageId);
-if (targetPage) {
-targetPage.classList.add('active');
-}
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; border-top: 1px solid var(--border); padding-top: 1.5rem;">
+                        <div>
+                            <h4 style="color: var(--primary); font-size: 0.95rem; margin-bottom: 0.3rem;"><i class="fa-solid fa-graduation-cap" style="color: var(--accent);"></i> Instituição</h4>
+                            <p style="color: var(--text-muted); font-size: 0.9rem;">SENAC - Serviço Nacional de Aprendizagem Comercial</p>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--primary); font-size: 0.95rem; margin-bottom: 0.3rem;"><i class="fa-solid fa-users" style="color: var(--accent);"></i> Equipa</h4>
+                            <p style="color: var(--text-muted); font-size: 0.9rem;">Equipe Turma Azul - Projeto Integrador</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
 
-// Ativar link na navegação
-const targetNav = document.getElementById('nav-' + pageId);
-if (targetNav) {
-targetNav.classList.add('active');
-}
+        <!-- Footer -->
+        <footer>
+            <div class="footer-container">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <div class="logo-icon"><i class="fa-solid fa-folder-shield"></i></div>
+                        Nexus Doc
+                    </a>
+                    <p>Plataforma de gestão documental inteligente para PMEs com automação por IA.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Navegação</h4>
+                    <ul>
+                        <li><a onclick="switchPage('home')">Início</a></li>
+                        <li><a onclick="switchPage('simulator')">Simulador IA</a></li>
+                        <li><a onclick="switchPage('lgpd')">LGPD</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Projeto</h4>
+                    <ul>
+                        <li><a onclick="switchPage('project')">Sobre o Projeto</a></li>
+                        <li><a>SENAC - Laboratório da Juventude</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Nexus Doc - SENAC. Todos os direitos reservados.</p>
+            </div>
+        </footer>
 
-window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+    </div>
 
-function updateFileName(input) {
-const display = document.getElementById('fileNameDisplay');
-if (input.files && input.files[0]) {
-display.textContent = "Selecionado: " + input.files[0].name;
-display.style.color = "var(--accent)";
-display.style.fontWeight = "bold";
-}
-}
+    <!-- JavaScript para Autenticação, Responsividade e Interatividade -->
+    <script>
+        // Lógica de Autenticação / Login
+        function handleLogin(event) {
+            event.preventDefault();
+            const userVal = document.getElementById('username').value.trim();
+            const passVal = document.getElementById('password').value.trim();
+            const errorBox = document.getElementById('login-error');
 
-function processDocument(event) {
-event.preventDefault();
+            if (userVal === 'TurmaAzul' && passVal === 'JovemAprediz123') {
+                errorBox.style.display = 'none';
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('app-content').style.display = 'block';
+            } else {
+                errorBox.style.display = 'flex';
+            }
+        }
 
-const name = document.getElementById('clientName').value;
-const tag = document.getElementById('docHashtag').value;
-const fileInput = document.getElementById('fileInput');
+        // Lógica de Logout
+        function handleLogout() {
+            document.getElementById('app-content').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'flex';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('login-error').style.display = 'none';
+        }
 
-const fileName = fileInput.files[0] ? fileInput.files[0].name : "Documento_Anexo.pdf";
-const dateStr = new Date().toLocaleDateString('pt-BR');
+        // Abrir/Fechar Menu no Telemóvel
+        function toggleMobileMenu() {
+            const navList = document.getElementById('nav-list');
+            const icon = document.getElementById('menu-icon');
+            navList.classList.toggle('mobile-active');
 
-const repoList = document.getElementById('repoList');
+            if (navList.classList.contains('mobile-active')) {
+                icon.className = 'fa-solid fa-xmark';
+            } else {
+                icon.className = 'fa-solid fa-bars';
+            }
+        }
 
-const newCard = document.createElement('div');
-newCard.className = 'doc-card';
-newCard.innerHTML = `
-               <div>
-                   <div class="doc-title">${name} - ${fileName} (${tag})</div>
-                   <div class="doc-meta">Data: ${dateStr} • Indexado por IA</div>
-               </div>
-               <span class="badge-lgpd"><i class="fa-solid fa-check"></i> LGPD Ok</span>
-           `;
+        // Troca de páginas sem recarregar o navegador
+        function switchPage(pageId) {
+            document.getElementById('nav-list').classList.remove('mobile-active');
+            document.getElementById('menu-icon').className = 'fa-solid fa-bars';
 
-repoList.prepend(newCard);
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
 
-document.getElementById('docForm').reset();
-document.getElementById('fileNameDisplay').textContent = "Clique para selecionar";
-document.getElementById('fileNameDisplay').style.color = "var(--text-muted)";
-document.getElementById('fileNameDisplay').style.fontWeight = "normal";
+            const targetPage = document.getElementById('page-' + pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
 
-alert('Documento recebido, rotulado com ' + tag + ' e arquivado com segurança!');
-}
-</script>
+            const targetNav = document.getElementById('nav-' + pageId);
+            if (targetNav) {
+                targetNav.classList.add('active');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateFileName(input) {
+            const display = document.getElementById('fileNameDisplay');
+            if (input.files && input.files[0]) {
+                display.textContent = "Selecionado: " + input.files[0].name;
+                display.style.color = "var(--accent)";
+                display.style.fontWeight = "bold";
+            }
+        }
+
+        function processDocument(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('clientName').value;
+            const tag = document.getElementById('docHashtag').value;
+            const fileInput = document.getElementById('fileInput');
+
+            const fileName = fileInput.files[0] ? fileInput.files[0].name : "Documento_Anexo.pdf";
+            const dateStr = new Date().toLocaleDateString('pt-BR');
+
+            const repoList = document.getElementById('repoList');
+
+            const newCard = document.createElement('div');
+            newCard.className = 'doc-card';
+            newCard.innerHTML = `
+                <div>
+                    <div class="doc-title">${name} - ${fileName} (${tag})</div>
+                    <div class="doc-meta">Data: ${dateStr} • Indexado por IA</div>
+                </div>
+                <span class="badge-lgpd"><i class="fa-solid fa-check"></i> LGPD Ok</span>
+            `;
+
+            repoList.prepend(newCard);
+
+            document.getElementById('docForm').reset();
+            document.getElementById('fileNameDisplay').textContent = "Clique para selecionar";
+            document.getElementById('fileNameDisplay').style.color = "var(--text-muted)";
+            document.getElementById('fileNameDisplay').style.fontWeight = "normal";
+
+            alert('Documento recebido, rotulado com ' + tag + ' e arquivado com segurança!');
+        }
+    </script>
 </body>
 </html>
-
-```
